@@ -18,7 +18,7 @@ class ResponsiveLayoutWithNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _MobileScaffold(builder: builder);
+    return SelectionArea(child: _MobileScaffold(builder: builder));
   }
 }
 

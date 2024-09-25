@@ -23,7 +23,7 @@ class BottomNavigation extends StatelessWidget {
       context: context,
       removeBottom: true,
       child: LocalHeroScope(
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: const Cubic(0.175, 0.885, 0.32, 1.1),
         duration: PEffects.shortDuration,
         child: _Container(
           constraints: BoxConstraints(
@@ -56,26 +56,25 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final color = theme.neutral;
     return Align(
       alignment: Alignment.bottomCenter,
-      child: ClipPath(
-        clipper: const ShapeBorderClipper(shape: PDecors.border24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-          child: Container(
-            decoration: ShapeDecoration(
-              shape: PDecors.border24,
-              color: color.withOpacity(.5),
-              shadows: PDecors.broadShadows(
-                context,
-                elevation: 4.0,
-                style: BlurStyle.outer,
-              ),
+      child: Container(
+        decoration: ShapeDecoration(
+          shape: PDecors.border24,
+          shadows: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8.0,
+              blurStyle: BlurStyle.outer,
             ),
-            constraints: constraints,
-            clipBehavior: Clip.hardEdge,
+          ],
+        ),
+        constraints: constraints,
+        clipBehavior: Clip.hardEdge,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+          child: ColoredBox(
+            color: PColors.lightGray.resolveFrom(context),
             child: child,
           ),
         ),
@@ -148,7 +147,12 @@ class NavBarButtonState extends State<_NavBarButton> {
     _tapTwiceListeners.remove(listener);
   }
 
-  Widget buildButtonContent(BuildContext context, bool isCurrent, String name) {
+  Widget buildButtonContent(
+    BuildContext context,
+    bool isHovered,
+    bool isCurrent,
+    String name,
+  ) {
     final theme = Theme.of(context);
     final foregroundColor = theme.colorScheme.primary;
     final darkGray = PColors.darkGray.resolveFrom(context);
@@ -159,7 +163,7 @@ class NavBarButtonState extends State<_NavBarButton> {
         Icon(
           path.icon,
           size: 20.0,
-          color: isCurrent ? foregroundColor : textGray,
+          color: isCurrent || isHovered ? foregroundColor : textGray,
         )
             .animate(
               onInit: (controller) => _bounceController = controller,
@@ -172,7 +176,9 @@ class NavBarButtonState extends State<_NavBarButton> {
             name,
             style: theme.textTheme.labelMedium
                 ?.modifyWeight(isCurrent ? 0.75 : 0)
-                .copyWith(color: isCurrent ? foregroundColor : darkGray)
+                .copyWith(
+                  color: isCurrent || isHovered ? foregroundColor : darkGray,
+                )
                 .apply(letterSpacingDelta: -.1),
           ),
         ),
@@ -185,42 +191,55 @@ class NavBarButtonState extends State<_NavBarButton> {
     final thisPath = widget.mainPath;
     final currentPath = context.watch<MainPath?>();
     final isCurrent = currentPath == widget.mainPath;
-    final name = path.getLocalizedName(context);
-    return CButton(
-      tooltip: name,
-      onTap: () {
-        if (isCurrent) {
-          _bounceController?.forward(from: 0.0);
-          for (final listener in _tapTwiceListeners) {
-            listener();
+    final name = path.name;
+    final description = path.description;
+    return HoverTapBuilder(
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      mouseCursor: SystemMouseCursors.click,
+      builder: (context, isHovered) => CButton(
+        tooltip: description,
+        onTap: () {
+          if (isCurrent) {
+            _bounceController?.forward(from: 0.0);
+            for (final listener in _tapTwiceListeners) {
+              listener();
+            }
           }
-        }
-        switch (thisPath) {
-          case MainPath.home:
-            const HomePageRoute().go(context);
-          case MainPath.projects:
-            const ProjectsPageRoute().go(context);
-          case MainPath.contact:
-            const ContactPageRoute().go(context);
-        }
-      },
-      padding: const EdgeInsetsDirectional.all(4.0) + widget.padding,
-      child: buildButtonContent(context, isCurrent, name),
+          switch (thisPath) {
+            case MainPath.home:
+              const HomePageRoute().go(context);
+            case MainPath.projects:
+              const ProjectsPageRoute().go(context);
+            case MainPath.contact:
+              const ContactPageRoute().go(context);
+          }
+        },
+        padding: const EdgeInsetsDirectional.all(4.0) + widget.padding,
+        child: buildButtonContent(context, isHovered, isCurrent, name),
+      ),
     );
   }
 }
 
 extension _MainPathInfo on MainPath {
-  String getLocalizedName(BuildContext context) => switch (this) {
+  String get name => switch (this) {
         MainPath.home => 'Home',
-        MainPath.projects => 'Projects',
-        MainPath.contact => 'Contact',
+        MainPath.projects => 'Work',
+        MainPath.contact => 'Meet',
+      };
+
+  String get description => switch (this) {
+        MainPath.home => 'Home',
+        MainPath.projects => 'Our projects',
+        MainPath.contact => 'Book a call and get a quote',
       };
 
   IconData get icon => switch (this) {
-        MainPath.home => HugeIcons.strokeRoundedHome01,
+        MainPath.home => HugeIcons.strokeRoundedHome07,
         MainPath.projects => HugeIcons.strokeRoundedBriefcase01,
-        MainPath.contact => HugeIcons.strokeRoundedMail01,
+        MainPath.contact => HugeIcons.strokeRoundedCalendarAdd02,
       };
 }
 
@@ -231,6 +250,14 @@ class _Ink extends StatelessWidget {
   Widget build(BuildContext context) {
     return LocalHero(
       tag: 'bottom_navigation_circle',
+      flightShuttleBuilder: (_, __, ___) => Container(
+        height: 80.0,
+        width: 80.0,
+        decoration: ShapeDecoration(
+          shape: PDecors.border16,
+          color: PColors.opaqueLightGray.resolveFrom(context),
+        ),
+      ),
       child: SizedBox(
         height: 80.0,
         width: 80.0,

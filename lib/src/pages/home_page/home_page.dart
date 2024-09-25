@@ -1,42 +1,55 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:local_hero/local_hero.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:jovial_svg/jovial_svg.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/components.dart';
 import '../../core/core.dart';
+import '../../router/router.dart';
+
+part 'home_page_header.dart';
+part 'intro.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return LocalHeroScope(
-      curve: PEffects.playfulCurve,
-      duration: PEffects.shortDuration,
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ValueNotifier<bool>>(
-            create: (_) => ValueNotifier(false),
-          ),
-        ],
-        builder: (context, _) => Scaffold(
-          body: Stack(
-            children: [
-              Positioned.fill(
-                child: ColoredBox(
-                  color: theme.resolveColor(
-                    PColors.offWhite,
-                    const Color(0xff222222),
-                  ),
-                ),
-              ),
-              const _Mesh().center(),
-            ],
-          ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ValueNotifier<bool>>(
+          create: (_) => ValueNotifier(false),
+        ),
+      ],
+      builder: (context, _) => Scaffold(
+        body: ListView(
+          children: [
+            const SafeArea(child: Gap(64.0)),
+            const HomePageHeader(),
+            const Gap(64.0),
+            const Intro(),
+            const Gap(64.0),
+            const _Mesh().pad24H(),
+            const Gap(24.0),
+            Row(
+              children: [
+                const Expanded(child: SizedBox()),
+                DirectionButton(
+                  onPressed: () {
+                    const ProjectsPageRoute().go(context);
+                  },
+                  title: const Text('Work'),
+                  subtitle: const Text('Selected Projects'),
+                  direction: AxisDirection.right,
+                ).expand(),
+              ],
+            ).readableWidth().center(),
+          ],
         ),
       ),
     );
@@ -47,9 +60,6 @@ class _Mesh extends StatelessWidget {
   const _Mesh();
   @override
   Widget build(BuildContext context) {
-    if (context.watch<ValueNotifier<bool>>().value) {
-      return const SizedBox.shrink();
-    }
     final theme = Theme.of(context);
     return ClipPath(
       clipper: const ShapeBorderClipper(shape: PDecors.border16),
@@ -65,10 +75,8 @@ class _Mesh extends StatelessWidget {
         child: const SizedBox.expand(),
       ),
     )
-        .withSize(160.0, 80.0)
-        .animate(
-          onComplete: (_) => context.read<ValueNotifier<bool>>().value = true,
-        )
+        .withHeight(320.0)
+        .animate()
         .fadeIn(duration: PEffects.shortDuration)
         .scaleXY(
           delay: PEffects.veryShortDuration,

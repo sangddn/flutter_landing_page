@@ -2,17 +2,27 @@ part of 'ui.dart';
 
 enum UiAsset {
   // Logos
-  appIcon('$_logo/app_icon', 'png'),
-  lightIcon('$_logo/light_icon', 'png'),
-  darkIcon('$_logo/dark_icon', 'png'),
-  lightIconName('$_logo/light_icon_name', 'png'),
-  darkIconName('$_logo/dark_icon_name', 'png'),
+  icon('$_logo/icon', 'png'),
+  iconRounded('$_logo/icon_rounded', 'png'),
+  favicon('$_logo/favicon', 'png'),
+  faviconNoir('$_logo/favicon_noir', 'png'),
+  faviconMono('$_logo/favicon_mono', 'png'),
+  logoDark('$_logo/logo_dark', 'png'),
+  logoLight('$_logo/logo_light', 'png'),
+  logoDarkSvg('$_logo/logo_dark', 'svg'),
+  logoLightSvg('$_logo/logo_light', 'svg'),
 
   // Graphics
   dcGraphic('$_graphics/dc', 'jpeg'),
   sfGraphic('$_graphics/sf', 'jpeg'),
   georgetownGraphic('$_graphics/georgetown', 'jpeg'),
   georgetown2Graphic('$_graphics/georgetown_2', 'jpeg'),
+  hotAirBalloon('$_graphics/hot_air_balloon', 'webp'),
+
+  // Me
+  me1('$_avatars/me_1', 'webp'),
+  me2('$_avatars/me_2', 'webp'),
+  friendGroup('$_avatars/group', 'webp'),
 
   // Icons
   lineSpacing('$_imgMisc/line_spacing', 'svg'),
@@ -89,6 +99,7 @@ const _anim = '$_assets/animations';
 const _misc = '$_assets/misc';
 const _precompiledSvg = '$_assets/precompiled_svgs';
 
+const _avatars = '$_image/avatars';
 const _graphics = '$_image/graphics';
 const _logo = '$_image/logos';
 const _imgMisc = '$_image/misc';

@@ -4,6 +4,9 @@ import '../components.dart';
 
 class HoverTapBuilder extends StatefulWidget {
   const HoverTapBuilder({
+    this.hoverColor,
+    this.focusColor,
+    this.highlightColor,
     this.focusNode,
     this.mouseCursor = MouseCursor.defer,
     this.hitTestBehavior = HitTestBehavior.deferToChild,
@@ -17,6 +20,7 @@ class HoverTapBuilder extends StatefulWidget {
 
   final FocusNode? focusNode;
   final MouseCursor mouseCursor;
+  final Color? highlightColor, hoverColor, focusColor;
   final HitTestBehavior hitTestBehavior;
   final VoidCallback? onHoverOrTapEnter, onHoverOrTapExit;
   final VoidCallback? onClicked;
@@ -65,9 +69,9 @@ class _HoverTapBuilderState extends State<HoverTapBuilder> {
               : MouseCursor.defer,
           onTap: widget.onClicked,
           highlightShape: BoxShape.rectangle,
-          // highlightColor: Colors.transparent,
-          // hoverColor: Colors.transparent,
-          // focusColor: Colors.transparent,
+          highlightColor: widget.highlightColor,
+          hoverColor: widget.hoverColor,
+          focusColor: widget.focusColor,
           onTapDown: (_) => _isMouse ? null : _onHoverOrTapEnter(),
           onTapUp: (_) => _isMouse ? null : _onHoverOrTapExit(),
           onTapCancel: () => _isMouse ? null : _onHoverOrTapExit(),
