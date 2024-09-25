@@ -5,7 +5,7 @@ const _skills = [
   ('web app', HugeIcons.strokeRoundedWebProgramming),
   ('user interface', HugeIcons.strokeRoundedWebDesign02),
   ('visual language', HugeIcons.strokeRoundedEye),
-  ('animation', HugeIcons.strokeRoundedMouseRightClick01),
+  ('interactions', HugeIcons.strokeRoundedMouseRightClick01),
   ('backend', HugeIcons.strokeRoundedDatabase01),
 ];
 
@@ -32,6 +32,12 @@ class _Skills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final alignTween = Tween<double>(begin: 0.0, end: 0.8);
+    // If screen width is too small, we add rotation to the firrst
+    // and the last widgets
+    final endAdjustmentValue =
+        ((800.0 - screenWidth) / 300.0).clamp(0.0, 1.0) * 0.25;
     final skills = _skills
         .indexedMap(
           (index, skill) => _Skill(
@@ -40,7 +46,6 @@ class _Skills extends StatelessWidget {
             color: _pastelColors[index],
             foregroundColor: _boldColors[index],
           )
-              // .square(100.0)
               .animate()
               .scaleXY(
                 delay: 75.ms * index,
@@ -54,22 +59,40 @@ class _Skills extends StatelessWidget {
                 duration: 550.ms,
                 curve: Curves.easeOutBack,
                 begin: -0.01 * index,
-                end: 0.01 * (index / 2.5 + 1.0) * (index.isOdd ? -1 : 1),
+                end: 0.02 * (index / 2.5 + 1.0) * (index.isOdd ? -1 : 1) +
+                    (index == 0
+                        ? endAdjustmentValue / 2
+                        : index == _skills.length - 1
+                            ? -endAdjustmentValue / 2.5
+                            : 0.0),
+              )
+              .custom(
+                delay: 115.ms * index,
+                duration: 450.ms,
+                curve: Curves.ease,
+                builder: (context, value, child) => Align(
+                  widthFactor: alignTween.transform(value) *
+                      (index == 0
+                          ? 1.0 - endAdjustmentValue
+                          : index == _skills.length - 1
+                              ? 1.0 - endAdjustmentValue
+                              : 1.0),
+                  child: child,
+                ),
               ),
-          // .custom(
-          //   delay: 115.ms * index,
-          //   duration: 450.ms,
-          //   curve: Curves.ease,
-          //   builder: (context, value, child) => Align(
-          //     widthFactor: alignTween.transform(value),
-          //     child: child,
-          //   ),
-          // ),
         )
         .toList();
 
-    return Wrap(
-      children: skills,
+    return Center(
+      child: OverflowBox(
+        maxWidth: 1000.0,
+        maxHeight: 200.0,
+        fit: OverflowBoxFit.deferToChild,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: skills,
+        ),
+      ),
     );
   }
 }
@@ -89,54 +112,54 @@ class _Skill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenWidth = MediaQuery.sizeOf(context).width;
 
-    return HoverTapBuilder(
-      builder: (context, isHovered) => EnlargeOnHover(
-        child: Transform.scale(
-          scale: 1 / 1.1,
-          child: Container(
-            decoration: ShapeDecoration(
-              shape: PDecors.border16,
-              gradient: LinearGradient(
-                colors: [
-                  color.tint30,
-                  color.tint20,
-                  color.tint10,
-                  color,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+    return EnlargeOnHover(
+      child: Transform.scale(
+        scale: 1 / 1.1,
+        child: Container(
+          decoration: ShapeDecoration(
+            shape: PDecors.border16,
+            gradient: LinearGradient(
+              colors: [
+                color.tint30,
+                color.tint20,
+                color.tint10,
+                color,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            shadows: [
+              ...PDecors.focusedShadows(elevation: .5),
+              BoxShadow(
+                color: Colors.white.withOpacity(0.1),
+                spreadRadius: 2.0,
+                blurStyle: BlurStyle.inner,
               ),
-              shadows: [
-                ...PDecors.focusedShadows(elevation: .5),
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.1),
-                  spreadRadius: 2.0,
-                  blurStyle: BlurStyle.inner,
-                ),
-              ],
-            ),
-            width: 200.0,
-            height: 80.0,
-            padding: k16APadding,
-            child: Stack(
-              children: [
-                Icon(
-                  icon,
-                  size: 28.0,
-                  color: foregroundColor,
-                ).alignTopEnd(),
-                Text(
-                  skill,
-                  style: theme.textTheme.bodyLarge?.modifyWeight(2).apply(
-                        color: foregroundColor,
-                        fontSizeFactor: 1.75,
-                        heightFactor: 0.6,
-                      ),
-                  overflow: TextOverflow.visible,
-                ).alignBottomStart(),
-              ],
-            ),
+            ],
+          ),
+          width: 200.0 * (screenWidth / 800.0).clamp(0.7, 1.0),
+          height: 80.0,
+          padding: k16APadding,
+          child: Stack(
+            children: [
+              Icon(
+                icon,
+                size: 28.0,
+                color: foregroundColor,
+              ).alignTopEnd(),
+              Text(
+                skill,
+                style: theme.textTheme.bodyLarge?.modifyWeight(2).apply(
+                      color: foregroundColor,
+                      fontSizeFactor:
+                          1.75 * (screenWidth / 900.0).clamp(0.6, 1.0),
+                      heightFactor: 0.6,
+                    ),
+                overflow: TextOverflow.visible,
+              ).alignBottomStart(),
+            ],
           ),
         ),
       ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/core.dart';
-import '../../services/services.dart';
 import '../components.dart';
 
 class CButton extends StatelessWidget {
@@ -17,6 +16,8 @@ class CButton extends StatelessWidget {
     this.tooltipTriggerMode = TooltipTriggerMode.longPress,
     this.focusNode,
     this.addFeedback = false,
+    this.tooltipPreferBottom = true,
+    this.tooltipWaitDuration = const Duration(milliseconds: 500),
     required this.tooltip,
     required this.onTap,
     required this.child,
@@ -31,6 +32,8 @@ class CButton extends StatelessWidget {
   final TooltipTriggerMode tooltipTriggerMode;
   final FocusNode? focusNode;
   final bool addFeedback;
+  final bool tooltipPreferBottom;
+  final Duration tooltipWaitDuration;
   final String? tooltip;
   final Clip clipBehavior;
   final VoidCallback? onTap;
@@ -78,6 +81,8 @@ class CButton extends StatelessWidget {
                     : _callback,
             child: PTooltip(
               message: tooltip,
+              preferBelow: tooltipPreferBottom,
+              showDuration: tooltipWaitDuration,
               triggerMode: tooltipTriggerMode,
               child: child!,
             ),

@@ -5,83 +5,103 @@ class HomePageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const _Mug(),
-        const Gap(16.0),
-        const _Intro(),
-        const Gap(32.0),
-        const _Links().center(),
-        const Gap(32.0),
-        const _Skills(),
+    return MultiProvider(
+      providers: [
+        // Expansion State
+        ChangeNotifierProvider<ValueNotifier<bool>>(
+          create: (_) => ValueNotifier(false),
+        ),
       ],
-    ).withMaxWidth(500.0).pad16H().center();
-  }
-}
-
-const _links = [
-  ('GitHub', HugeIcons.strokeRoundedGithub, 'https://github.com/sangddn'),
-  ('Twitter', HugeIcons.strokeRoundedNewTwitter, 'https://x.com/sangddn'),
-  (
-    'LinkedIn',
-    HugeIcons.strokeRoundedLinkedin01,
-    'https://www.linkedin.com/in/sangtrdoan/'
-  ),
-  ('Email', HugeIcons.strokeRoundedMail02, 'mailto:hello@sangdoan.com'),
-];
-
-class _Links extends StatelessWidget {
-  const _Links();
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      runSpacing: 6.0,
-      spacing: 8.0,
-      children: _links
-          .map((link) => _Link(icon: link.$2, text: link.$1, link: link.$3))
-          .toList(),
+      builder: (context, _) => Column(
+        children: [
+          MouseRegion(
+            onEnter: (_) => context.read<ValueNotifier<bool>>().value = true,
+            onExit: (_) => context.read<ValueNotifier<bool>>().value = false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SafeArea(child: Gap(48.0)),
+                const _MugWithLinks().center(),
+                const Gap(24.0),
+              ],
+            ).withMaxWidth(500.0).pad16H().center(),
+          ),
+          const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Intro(),
+            ],
+          ).withMaxWidth(500.0).pad16H().center(),
+        ],
+      ),
     );
   }
 }
 
-class _Link extends StatelessWidget {
-  const _Link({
-    required this.icon,
-    required this.text,
-    required this.link,
-  });
+extension _HeaderState on BuildContext {
+  bool isExpanded() => watch<ValueNotifier<bool>>().value;
+}
 
-  final IconData icon;
-  final String text;
-  final String link;
+class _MugWithLinks extends StatelessWidget {
+  const _MugWithLinks();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final isExpanded = context.isExpanded();
 
-    return HoverTapBuilder(
-      cornerRadius: 12.0,
-      mouseCursor: SystemMouseCursors.click,
-      builder: (context, isHovered) => CButton(
-        tooltip: link,
-        onTap: () {
-          launchUrlString(link);
-        },
-        padding: k16H12VPadding,
-        cornerRadius: 12.0,
-        color: PColors.gray.resolveFrom(context),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 16.0, color: theme.colorScheme.onSurface),
-            const Gap(8.0),
-            Text(text, style: theme.textTheme.labelMedium),
-          ],
+    final links = _links.map((link) => _Link(link)).toList();
+
+    return AnimatedSize(
+      duration: PEffects.shortDuration,
+      curve: PEffects.swiftOut,
+      child: SizedBox(
+        width: 400.0,
+        height: isExpanded ? 160.0 : 100.0,
+        child: Padding(
+          padding: isExpanded
+              ? const EdgeInsets.only(bottom: 32.0)
+              : EdgeInsets.zero,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              const _Mug(),
+              AnimatedAlign(
+                duration: PEffects.shortDuration,
+                curve: PEffects.swiftOut,
+                alignment: isExpanded
+                    ? const AlignmentDirectional(-0.45, -0.8)
+                    : const AlignmentDirectional(-0.25, -0.75),
+                child: links[0],
+              ),
+              AnimatedAlign(
+                duration: PEffects.shortDuration,
+                curve: PEffects.swiftOut,
+                alignment: isExpanded
+                    ? const AlignmentDirectional(0.55, -0.8)
+                    : const AlignmentDirectional(0.25, -0.75),
+                child: links[1],
+              ),
+              AnimatedAlign(
+                duration: PEffects.shortDuration,
+                curve: PEffects.swiftOut,
+                alignment: isExpanded
+                    ? const AlignmentDirectional(-0.4, 0.8)
+                    : const AlignmentDirectional(-0.25, 0.75),
+                child: links[2],
+              ),
+              AnimatedAlign(
+                duration: PEffects.shortDuration,
+                curve: PEffects.swiftOut,
+                alignment: isExpanded
+                    ? const AlignmentDirectional(0.4, 0.8)
+                    : const AlignmentDirectional(0.25, 0.75),
+                child: links[3],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -97,7 +117,7 @@ class _Mug extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 3.0),
+        border: Border.all(color: Colors.white, width: 2.5),
         boxShadow: [
           ...PDecors.focusedShadows(
             baseColor: PColors.selectiveYellow,
@@ -111,7 +131,147 @@ class _Mug extends StatelessWidget {
       ),
       child: CircleAvatar(
         foregroundImage: imageProvider,
-        radius: 20.0,
+        radius: 24.0,
+      ),
+    );
+  }
+}
+
+typedef _LinkData = (
+  String,
+  IconData,
+  CupertinoDynamicColor,
+  String,
+  bool preferBottom
+);
+
+const _links = <_LinkData>[
+  (
+    'GitHub',
+    HugeIcons.strokeRoundedGithub,
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0xff323232),
+      darkColor: Color(0xff424242),
+    ),
+    'https://github.com/sangddn',
+    false,
+  ),
+  (
+    'Twitter/X',
+    HugeIcons.strokeRoundedNewTwitter,
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0xff1DA1F2),
+      darkColor: Color(0xff1DA1F2),
+    ),
+    'https://x.com/sangddn',
+    false,
+  ),
+  (
+    'Blog',
+    HugeIcons.strokeRoundedInternet,
+    CupertinoColors.activeGreen,
+    'https://sangdoan.net',
+    true,
+  ),
+  (
+    'Email',
+    HugeIcons.strokeRoundedMail02,
+    CupertinoColors.activeOrange,
+    'mailto:hello@sangdoan.com',
+    true,
+  ),
+];
+
+class _Link extends StatelessWidget {
+  const _Link(this.data);
+
+  final _LinkData data;
+
+  IconData get icon => data.$2;
+  String get text => data.$1;
+  String get link => data.$4;
+  CupertinoDynamicColor get color => data.$3;
+  bool get preferBottom => data.$5;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isExpanded = context.isExpanded();
+    final resolvedColor = color.resolveFrom(context);
+
+    return AnimatedContainer(
+      duration: PEffects.shortDuration,
+      curve: Curves.easeInOut,
+      decoration: ShapeDecoration(
+        shape: const SquircleStadiumBorder(),
+        shadows: isExpanded
+            ? PDecors.mediumShadows(
+                elevation: 0.5,
+                baseColor: color,
+              )
+            : [],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: HoverTapBuilder(
+        cornerRadius: 0.0,
+        mouseCursor: SystemMouseCursors.click,
+        builder: (context, isHovered) => CButton(
+          cornerRadius: 0.0,
+          color: isExpanded ? theme.neutral : Colors.transparent,
+          tooltip: link,
+          tooltipPreferBottom: preferBottom,
+          tooltipWaitDuration: const Duration(milliseconds: 1000),
+          onTap: () {
+            launchUrlString(link);
+          },
+          child: AnimatedContainer(
+            duration: PEffects.shortDuration,
+            curve: PEffects.swiftOut,
+            padding: k12HPadding + k8VPadding,
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.bottomCenter,
+                radius: 0.75,
+                colors: [
+                  if (isHovered)
+                    resolvedColor.withOpacity(0.5)
+                  else
+                    Colors.transparent,
+                  if (isHovered) resolvedColor else Colors.transparent,
+                ],
+              ),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: PEffects.veryShortDuration,
+              style: theme.textTheme.bodyLarge!.copyWith(
+                color: isHovered ? Colors.white : theme.colorScheme.onSurface,
+              ),
+              child: Builder(
+                builder: (context) {
+                  return AnimatedSize(
+                    duration: PEffects.veryShortDuration,
+                    curve: PEffects.swiftOut,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          icon,
+                          size: 16.0,
+                          color: DefaultTextStyle.of(context).style.color,
+                        ),
+                        if (isExpanded) ...[
+                          const Gap(8.0),
+                          Text(text),
+                        ],
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

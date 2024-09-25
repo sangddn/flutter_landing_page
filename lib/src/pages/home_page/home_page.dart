@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -29,10 +31,8 @@ class HomePage extends StatelessWidget {
       builder: (context, _) => Scaffold(
         body: ListView(
           children: [
-            const SafeArea(child: Gap(64.0)),
             const HomePageHeader(),
-            const Gap(64.0),
-            const _Intro(),
+            const _Skills(),
             const Gap(64.0),
             const _Mesh().pad24H(),
             const Gap(24.0),

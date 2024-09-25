@@ -413,9 +413,9 @@ extension ConstraintX on Widget {
   Widget withMinHeightIf(bool condition, double height) =>
       constrainIf(condition, BoxConstraints(minHeight: height));
 
-  Widget concentrated() => withMaxWidth(400.0);
-  Widget readableWidth() => withMaxWidth(500.0);
-  Widget narrowWidth() => withMaxWidth(600.0);
+  Widget concentrated() => withMaxWidth(450.0);
+  Widget readableWidth() => withMaxWidth(600.0);
+  Widget narrowWidth() => withMaxWidth(700.0);
   Widget intrinsicWidth() => IntrinsicWidth(child: this);
   Widget intrinsicHeight() => IntrinsicHeight(child: this);
 }

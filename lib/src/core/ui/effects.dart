@@ -10,6 +10,7 @@ class PEffects {
 
   static const engagingCurve = Cubic(0.4, 0.0, 0.2, 1.0);
   static const playfulCurve = Cubic(0.22, 0.74, 0.38, 1.09);
+  static const swiftOut = Cubic(0.175, 0.885, 0.32, 1.1);
 
   static const blur = BlurEffect(
     duration: Duration(milliseconds: 300),
