@@ -109,38 +109,9 @@ class _MSVMediaWrapper extends StatelessWidget {
       child: heroed,
     );
 
-    final withContextMenu = ContextMenuWidget(
-      menuProvider: (_) {
-        return Menu(
-          children: [
-            MenuAction(
-              title: 'Open',
-              image: MenuImage.icon(CupertinoIcons.fullscreen),
-              callback: () {
-                _onTap(context);
-              },
-            ),
-            MenuAction(
-              title: thumbnail.mediaType.isImage ? 'Open Image' : 'Open Video',
-              image: MenuImage.icon(CupertinoIcons.link),
-              callback: () {
-                final url = thumbnail.sourceLink ?? thumbnail.sourceUrl;
-                launchUrlString(url);
-              },
-            ),
-          ],
-        );
-      },
-      previewBuilder: (context, child) => RoundedImage.fromUrl(
-        thumbnail.mediaType.isImage ? thumbnail.sourceUrl : imageUrl,
-        borderRadius: 12.0,
-      ),
-      child: tappable,
-    );
-
     return Offstage(
       offstage: context.isActive(thumbnail),
-      child: withContextMenu,
+      child: tappable,
     );
   }
 }

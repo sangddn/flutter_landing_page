@@ -11,7 +11,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:soundpool/soundpool.dart';
 
 import '../../components/components.dart';
 import '../core.dart';

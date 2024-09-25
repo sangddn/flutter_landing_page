@@ -5,9 +5,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:super_context_menu/super_context_menu.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/core.dart';
 import '../../../models/models.dart';
