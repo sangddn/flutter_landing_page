@@ -51,7 +51,6 @@ class PButton extends StatefulWidget {
     this.backgroundGradient,
     this.foregroundColor,
     this.animateOnTap = false,
-    this.analyticsEvent,
     required this.onTap,
     required this.child,
     super.key,
@@ -62,7 +61,6 @@ class PButton extends StatefulWidget {
   final BorderSide idleBorderSide;
   final BorderSide? focusedBorderSide;
   final List<BoxShadow> shadows;
-  final AnalyticsEvent? analyticsEvent;
   final ValueChanged<PButtonController>? onTap;
   final Color? foregroundColor;
   final Color? backgroundColor;
@@ -110,7 +108,6 @@ class _PButtonState extends State<PButton> {
         onPressed: widget.onTap == null
             ? null
             : () {
-                widget.analyticsEvent?.track();
                 widget.onTap?.call(_controller);
               },
         child: Row(

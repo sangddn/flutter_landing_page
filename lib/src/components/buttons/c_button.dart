@@ -15,7 +15,6 @@ class CButton extends StatelessWidget {
     this.clipBehavior = Clip.antiAlias,
     this.pressedOpacity = 0.4,
     this.tooltipTriggerMode = TooltipTriggerMode.longPress,
-    this.analyticsEvent,
     this.focusNode,
     this.addFeedback = false,
     required this.tooltip,
@@ -30,7 +29,6 @@ class CButton extends StatelessWidget {
   final double pressedOpacity;
   final Color? color;
   final TooltipTriggerMode tooltipTriggerMode;
-  final AnalyticsEvent? analyticsEvent;
   final FocusNode? focusNode;
   final bool addFeedback;
   final String? tooltip;
@@ -39,7 +37,6 @@ class CButton extends StatelessWidget {
   final Widget child;
 
   void _callback() {
-    analyticsEvent?.track();
     return onTap?.call();
   }
 

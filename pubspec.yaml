@@ -24,7 +24,6 @@ dependencies:
   jovial_svg: ^1.1.22
   local_hero: ^0.3.0
   url_launcher: ^6.3.0
-  posthog_flutter: ^4.5.0
   smooth_sheets: ^0.9.4
   animations: ^2.0.11
   intl: ^0.19.0

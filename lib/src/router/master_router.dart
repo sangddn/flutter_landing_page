@@ -8,9 +8,7 @@ final router = GoRouter(
   navigatorKey: fRootNavigatorKey,
   initialLocation: '/',
   debugLogDiagnostics: true,
-  observers: [
-    if (!kDebugMode) ProductAnalytics.navigatorObserver,
-  ],
+  observers: [],
   errorPageBuilder: (context, state) {
     debugPrint('Error routing: ${state.error}');
     return NoTransitionPage(
