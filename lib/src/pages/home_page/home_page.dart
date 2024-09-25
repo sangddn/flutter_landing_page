@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -14,6 +13,7 @@ import '../../router/router.dart';
 
 part 'home_page_header.dart';
 part 'intro.dart';
+part 'skills.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             const SafeArea(child: Gap(64.0)),
             const HomePageHeader(),
             const Gap(64.0),
-            const Intro(),
+            const _Intro(),
             const Gap(64.0),
             const _Mesh().pad24H(),
             const Gap(24.0),

@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "Sang Doan",
+    "rewrites": [
+        {
+            "source": "/:a*",
+            "destination": "/"
+        }
+    ]
+}
