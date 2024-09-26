@@ -13,18 +13,7 @@ class _Ticket extends StatelessWidget {
         final notifier = context.watch<ValueNotifier<Offset>>();
         final offsetDelta = notifier.value;
         final blurDelta = offsetDelta.distance;
-        return Tilt(
-          lightConfig: const LightConfig(disable: true),
-          shadowConfig: const ShadowConfig(disable: true),
-          borderRadius: BorderRadius.circular(16.0),
-          clipBehavior: Clip.none,
-          onGestureMove: (data, _) {
-            notifier.value = data.angle / 2;
-          },
-          onGestureLeave: (data, _) {
-            notifier.value = Offset.zero;
-          },
-          child: Container(
+        final container = Container(
             decoration: ShapeDecoration(
               shape: const TicketShapeBorder(),
               color: theme.resolveColor(PColors.offWhite, PColors.dark.shade20),
@@ -51,8 +40,21 @@ class _Ticket extends StatelessWidget {
                 _Bottom(),
               ],
             ),
-          ),
-        );
+          );
+          return container;
+        // return Tilt(
+        //   lightConfig: const LightConfig(disable: true),
+        //   shadowConfig: const ShadowConfig(disable: true),
+        //   borderRadius: BorderRadius.circular(16.0),
+        //   clipBehavior: Clip.none,
+        //   onGestureMove: (data, _) {
+        //     notifier.value = data.angle / 2;
+        //   },
+        //   onGestureLeave: (data, _) {
+        //     notifier.value = Offset.zero;
+        //   },
+        //   child: container ,
+        // );
       },
     );
   }
