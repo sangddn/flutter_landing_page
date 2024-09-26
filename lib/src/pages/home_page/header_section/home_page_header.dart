@@ -1,5 +1,7 @@
 part of '../home_page.dart';
 
+final _screenshotController = ScreenshotController();
+
 class HomePageHeader extends StatelessWidget {
   const HomePageHeader({super.key});
 
@@ -26,6 +28,20 @@ class HomePageHeader extends StatelessWidget {
                 const Gap(8.0),
               ],
             ).withMaxWidth(500.0).pad16H().center(),
+          ),
+          CButton(
+            tooltip: null,
+            onTap: () async {
+              await _screenshotController.captureAndSave(
+                (await getDownloadDirectory()).path,
+                fileName: 'screenshot.png',
+                pixelRatio: 4.0,
+              );
+              debugPrint('Captured');
+            },
+            padding: k16H12VPadding,
+            color: Colors.red,
+            child: const Text('Capture'),
           ),
           const Column(
             mainAxisSize: MainAxisSize.min,
@@ -115,24 +131,28 @@ class _Mug extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageProvider = UiAsset.me1.toImageProvider();
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2.5),
-        boxShadow: [
-          ...PDecors.focusedShadows(
-            baseColor: PColors.selectiveYellow,
-            elevation: 1.25,
-          ),
-          ...PDecors.focusedShadows(
-            baseColor: PColors.steelBlue,
-            elevation: 0.75,
-          ),
-        ],
-      ),
-      child: CircleAvatar(
-        foregroundImage: imageProvider,
-        radius: 24.0,
+    return Screenshot(
+      controller: _screenshotController,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 2.5),
+          boxShadow: [
+            ...PDecors.focusedShadows(
+              elevation: 0.5,
+              baseColor: PColors.selectiveYellow,
+            ),
+            ...PDecors.focusedShadows(
+              baseColor: PColors.steelBlue,
+              elevation: 0.25,
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.all(16.0),
+        child: CircleAvatar(
+          foregroundImage: imageProvider,
+          radius: 24.0,
+        ),
       ),
     );
   }

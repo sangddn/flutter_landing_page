@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:downloadsfolder/downloadsfolder.dart' show getDownloadDirectory;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/components.dart';

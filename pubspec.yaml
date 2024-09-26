@@ -36,6 +36,8 @@ dependencies:
   confetti: ^0.7.0
   freezed_annotation: ^2.4.4
   super_sliver_list: ^0.4.1
+  screenshot: ^3.0.0
+  downloadsfolder: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -137,18 +139,18 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: "assets/images/logos/icon_rounded_128.png"
+    image_path: "assets/images/avatars/340x340.webp"
     # background_color: "#00FFFFFF"
     theme_color: "#ffffff"
   macos:
-    generate: false
-    image_path: "assets/images/logos/icon_rounded.png"
+    generate: true
+    image_path: "assets/images/avatars/340x340.webp"
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/logos/favicon_noir.jpeg
+  image: assets/images/avatars/340x340.png
   color_dark: "#222222"
-  image_dark: assets/images/logos/favicon_mono.jpeg
+  image_dark: assets/images/avatars/340x340.png
   android_gravity: center
   ios_content_mode: center
   web_image_mode: center
