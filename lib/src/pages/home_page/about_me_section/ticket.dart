@@ -6,131 +6,367 @@ class _Ticket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final gray = PColors.gray.resolveFrom(context);
-    final orange = CupertinoColors.activeOrange.resolveFrom(context);
+
+    return ChangeNotifierProvider(
+      create: (context) => ValueNotifier<Offset>(Offset.zero),
+      builder: (context, _) {
+        final notifier = context.watch<ValueNotifier<Offset>>();
+        final offsetDelta = notifier.value;
+        final blurDelta = offsetDelta.distance;
+        return Tilt(
+          lightConfig: const LightConfig(disable: true),
+          shadowConfig: const ShadowConfig(disable: true),
+          borderRadius: BorderRadius.circular(16.0),
+          clipBehavior: Clip.none,
+          onGestureMove: (data, _) {
+            notifier.value = data.angle / 2;
+          },
+          onGestureLeave: (data, _) {
+            notifier.value = Offset.zero;
+          },
+          child: Container(
+            decoration: ShapeDecoration(
+              shape: const TicketShapeBorder(),
+              color: theme.resolveColor(PColors.offWhite, PColors.dark.shade20),
+              shadows: PDecors.mediumShadows(
+                offsetDelta: notifier.value,
+                blurDelta: blurDelta,
+              ),
+            ),
+            clipBehavior: Clip.antiAlias,
+            // padding: k16APadding,
+            width: 500.0,
+            child: const Column(
+              children: [
+                _QatarLogo(),
+                Gap(32.0),
+                _DepartureLine(),
+                Gap(8.0),
+                _Airports(),
+                Gap(4.0),
+                _Cities(),
+                Gap(24.0),
+                _Dates(),
+                Gap(16.0),
+                _Bottom(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _Bottom extends StatefulWidget {
+  const _Bottom();
+
+  @override
+  State<_Bottom> createState() => _BottomState();
+}
+
+class _BottomState extends State<_Bottom> {
+  var _duration = 26 * 60 * 60 + 15 * 60;
+  late final Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      maybeSetState(() {
+        _duration -= 1;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final lightGray = PColors.gray.resolveFrom(context);
+    final hours = _duration ~/ 3600;
+    final minutes = (_duration ~/ 60) % 60;
+    final seconds = _duration % 60;
+
+    return Container(
+      color: lightGray,
+      height: 48.0,
+      child: Row(
+        children: [
+          const Gap(8.0),
+          _Counter(hours),
+          const Gap(4.0),
+          _Counter(minutes),
+          const Gap(4.0),
+          _Counter(seconds),
+          const Gap(4.0),
+          Text(
+            'until promised land',
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: PColors.textGray.resolveFrom(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Counter extends StatelessWidget {
+  const _Counter(this.count);
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.labelLarge
+        ?.enableFeatures(['calt', 'zero', 'tnum']).apply(fontSizeFactor: 1.1);
 
     return Container(
       decoration: ShapeDecoration(
-        shape: const TicketShapeBorder(),
-        color: theme.neutral,
-        shadows: PDecors.mediumShadows(),
+        shape: PDecors.border8,
+        color: PColors.gray.resolveFrom(context),
       ),
-      clipBehavior: Clip.antiAlias,
-      // padding: k16APadding,
-      width: 500.0,
+      padding: k8HPadding + k4VPadding,
+      child: NumericCounter(
+        textScaler: TextScaler.noScaling,
+        leadingZeros: count < 10 ? 1 : 0,
+        count: count,
+        style: style,
+      ),
+    );
+  }
+}
 
-      child: Column(
+class _Dates extends StatelessWidget {
+  const _Dates();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          '17 JAN 2021',
+          style: theme.textTheme.labelMedium,
+        ),
+        const Gap(6.0),
+        const Circle(),
+        const Gap(4.0),
+        Text(
+          'ONE-WAY',
+          style: theme.textTheme.labelMedium,
+        ),
+      ],
+    );
+  }
+}
+
+class _Cities extends StatelessWidget {
+  const _Cities();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      children: [
+        const Gap(32.0),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Hanoi ',
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: PColors.textGray.resolveFrom(context),
+                ),
+              ),
+              TextSpan(
+                text: '10:10',
+                style: theme.textTheme.labelLarge
+                    ?.enableFeatures(['calt', 'zero']),
+              ),
+            ],
+          ),
+        ),
+        const Spacer(),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Washington, D.C. ',
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: PColors.textGray.resolveFrom(context),
+                ),
+              ),
+              TextSpan(
+                text: '14:15',
+                style: theme.textTheme.labelLarge?.enableFeature('calt'),
+              ),
+              TextSpan(
+                text: '\u207A1',
+                style: theme.textTheme.labelLarge?.enableFeature('sups'),
+              ),
+            ],
+          ),
+        ),
+        const Gap(32.0),
+      ],
+    );
+  }
+}
+
+class _Airports extends StatelessWidget {
+  const _Airports();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final orange = CupertinoColors.activeOrange.resolveFrom(context);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Gap(32.0),
+        Row(
+          children: [
+            Text(
+              'HAN',
+              style: theme.textTheme.headlineLarge,
+            ),
+            const Gap(8.0),
+            Icon(
+              CupertinoIcons.arrow_up_right_circle_fill,
+              size: 24.0,
+              color: orange,
+            ),
+            Container(
+              decoration: ShapeDecoration(
+                shape: const SquircleStadiumBorder(),
+                color: orange,
+              ),
+              height: 3.0,
+            )
+                .animate(
+                  onPlay: (controller) => controller.repeat(),
+                )
+                .shimmer(
+                  duration: 2000.milliseconds,
+                  color: Colors.white,
+                )
+                .expand(),
+          ],
+        ).expand(),
+        const Icon(
+          CupertinoIcons.airplane,
+          size: 28.0,
+        ),
+        Row(
+          children: [
+            DottedLine(
+              lineThickness: 2.5,
+              dashRadius: 10.0,
+              dashLength: 6.0,
+              dashColor: orange,
+            ).expand(),
+            Icon(
+              CupertinoIcons.arrow_down_right_circle_fill,
+              size: 24.0,
+              color: orange,
+            ),
+            const Gap(8.0),
+            Text(
+              'IAD',
+              style: theme.textTheme.headlineLarge,
+            ),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+            ),
+          ],
+        ).expand(),
+        const Gap(32.0),
+      ],
+    );
+  }
+}
+
+class _DepartureLine extends StatelessWidget {
+  const _DepartureLine();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Gap(32.0),
+        Text(
+          'Departure'.toUpperCase(),
+          style: theme.textTheme.labelSmall,
+        ),
+        const Spacer(),
+        Text(
+          'STOP: DOH'.toUpperCase(),
+          style: theme.textTheme.labelSmall?.enableFeature('calt'),
+        ),
+        const Spacer(),
+        Text(
+          'Arrival'.toUpperCase(),
+          style: theme.textTheme.labelSmall,
+        ),
+        const Gap(32.0),
+      ],
+    );
+  }
+}
+
+class _QatarLogo extends StatelessWidget {
+  const _QatarLogo();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      height: 48.0,
+      decoration: BoxDecoration(
+        // gradient: RadialGradient(
+        //   colors: [
+        //     const Color(0xff64013D).tint90,
+        //     const Color(0xff64013D),
+        //   ],
+        //   // stops: const [0.0, 0.6],
+        //   radius: 3.0,
+        //   center: AlignmentDirectional.centerStart,
+        // ),
+        color: theme.resolveColor(PColors.offWhite, PColors.dark9),
+      ),
+      child: Row(
         children: [
-          Container(
-            color: gray,
-            height: 32.0,
+          const Gap(16.0),
+          Image.asset(
+            UiAsset.qatarAirwaysLogo.path,
+            height: 26.0,
           ),
-          const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Departure',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Arrival',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const Gap(8.0),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Gap(32.0),
-              Row(
-                children: [
-                  Text(
-                    'HAN',
-                    style: theme.textTheme.headlineLarge,
-                  ),
-                  const Gap(8.0),
-                  Icon(
-                    CupertinoIcons.arrow_up_right_circle_fill,
-                    size: 24.0,
-                    color: orange,
-                  ),
-                  Container(
-                    decoration: ShapeDecoration(
-                      shape: const SquircleStadiumBorder(),
-                      color: orange,
-                    ),
-                    height: 3.0,
-                  ).expand(),
-                ],
-              ).expand(),
-              const Icon(
-                CupertinoIcons.airplane,
-                size: 28.0,
-              ),
-              Row(
-                children: [
-                  DottedLine(
-                    lineThickness: 2.5,
-                    dashRadius: 10.0,
-                    dashLength: 6.0,
-                    dashColor: orange,
-                  ).expand(),
-                  Icon(
-                    CupertinoIcons.arrow_down_right_circle_fill,
-                    size: 24.0,
-                    color: orange,
-                  ),
-                  const Gap(8.0),
-                  Text(
-                    'IAD',
-                    style: theme.textTheme.headlineLarge,
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                  ),
-                ],
-              ).expand(),
-              const Gap(32.0),
-            ],
-          ),
-          Row(
-            children: [
-              const Gap(32.0),
-              Text(
-                'Hanoi',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: PColors.textGray.resolveFrom(context),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'Washington, D.C.',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: PColors.textGray.resolveFrom(context),
-                ),
-              ),
-              const Gap(32.0),
-            ],
-          ),
-          const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Date: 2024-12-25',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Text(
-                'PNR: ABC123',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+          const Spacer(),
+          Text(
+            'QR707-QR977',
+            style: theme.textTheme.headlineSmall
+                ?.copyWith(
+              color: const Color(0xff64013D),
+            )
+                .enableFeatures(['zero', 'calt', 'ss01']),
           ),
           const Gap(16.0),
-          Container(
-            color: gray,
-            height: 32.0,
-          ),
         ],
       ),
     );

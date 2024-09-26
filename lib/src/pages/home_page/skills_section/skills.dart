@@ -119,16 +119,30 @@ class _Skills extends StatelessWidget {
           );
 
     return Center(
-      child: OverflowBox(
-        maxWidth: 1000.0,
-        maxHeight: 200.0,
-        fit: OverflowBoxFit.deferToChild,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: skills.toList(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: skills.toList(),
+          ),
         ),
       ),
     );
+
+    // return Center(
+    //   child: OverflowBox(
+    //     maxWidth: 1000.0,
+    //     maxHeight: 200.0,
+    //     fit: OverflowBoxFit.deferToChild,
+    //     child: Row(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: skills.toList(),
+    //     ),
+    //   ),
+    // );
   }
 }
 

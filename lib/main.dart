@@ -44,7 +44,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: kLightTheme,
       darkTheme: kDarkTheme,
-      themeMode: ThemeMode.light,
+      // themeMode: ThemeMode.light,
       routerConfig: router,
     );
   }

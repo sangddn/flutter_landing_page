@@ -1,4 +1,5 @@
 export 'analog_clock.dart';
+export 'animated_time.dart';
 export 'annotated_divider.dart';
 export 'dialog.dart';
 export 'dialog_button.dart';

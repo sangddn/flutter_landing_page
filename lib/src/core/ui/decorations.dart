@@ -139,6 +139,10 @@ class PDecors {
     BlurStyle style = BlurStyle.normal,
     Offset offsetDelta = Offset.zero,
     double offsetFactor = 1.0,
+    double spreadFactor = 1.0,
+    double spreadDelta = 0.0,
+    double blurFactor = 1.0,
+    double blurDelta = 0.0,
   }) =>
       elevation <= 0.0
           ? []
@@ -154,9 +158,9 @@ class PDecors {
                 };
                 return BoxShadow(
                   color: baseColor.withOpacity(opacity),
-                  blurRadius: blur,
+                  blurRadius: blur * blurFactor + blurDelta,
                   offset: Offset(0, yOffset) * offsetFactor + offsetDelta,
-                  spreadRadius: spread,
+                  spreadRadius: spread * spreadFactor + spreadDelta,
                   blurStyle: style,
                 );
               },

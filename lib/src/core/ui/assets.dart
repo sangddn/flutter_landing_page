@@ -54,6 +54,7 @@ enum UiAsset {
   googleColor('$_imgMisc/google_logo_color', 'svg'),
   twitterX('$_imgMisc/twitter_x', 'svg'),
   instagram('$_imgMisc/instagram', 'png'),
+  qatarAirwaysLogo('$_imgMisc/qatar', 'png'),
   cnnLogo('$_misc/news_logos/cnn_logo', 'jpg'),
   apLogo('$_misc/news_logos/ap_logo', 'png'),
   nytLogo('$_misc/news_logos/nyt_logo', 'png'),

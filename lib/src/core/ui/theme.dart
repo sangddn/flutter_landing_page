@@ -393,7 +393,7 @@ const kStylizedSans2FontFamily = 'Days One';
 const kReadOptimalFontFamily = 'Crimson Text';
 
 final _figtreeLightTextTheme = _baseLightTheme.textTheme.apply(
-  fontFamily: kFontFamily,
+  fontFamily: kLabelFontFamily,
 );
 
 final _lightTextTheme = _figtreeLightTextTheme.copyWith(
@@ -416,7 +416,7 @@ final _lightTextTheme = _figtreeLightTextTheme.copyWith(
 );
 
 final _figtreeDarkTextTheme =
-    _baseDarkTheme.textTheme.apply(fontFamily: kFontFamily);
+    _baseDarkTheme.textTheme.apply(fontFamily: kLabelFontFamily);
 
 final _darkTextTheme = _figtreeDarkTextTheme.copyWith(
   displayLarge: _figtreeDarkTextTheme.displayLarge!.displayFont,
