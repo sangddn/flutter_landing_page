@@ -439,7 +439,7 @@ final _darkTextTheme = _figtreeDarkTextTheme.copyWith(
 
 extension TextStyleUtils on TextStyle {
   TextStyle get displayFont =>
-      copyWith(fontFamily: kLabelFontFamily).enableFeature('cv08');
+      copyWith(fontFamily: kLabelFontFamily).enableFeatures(['cv08', 'ss03']);
 
   TextStyle get monoFont => GoogleFonts.getFont(
         kMonoFontFamily,

@@ -1,10 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:jovial_svg/jovial_svg.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -13,9 +13,16 @@ import '../../components/components.dart';
 import '../../core/core.dart';
 import '../../router/router.dart';
 
-part 'home_page_header.dart';
-part 'intro.dart';
-part 'skills.dart';
+part 'header_section/home_page_header.dart';
+part 'header_section/intro.dart';
+part 'header_section/cta.dart';
+
+part 'about_me_section/about_me_section.dart';
+part 'about_me_section/photos.dart';
+part 'about_me_section/ticket.dart';
+
+part 'skills_section/skills_section.dart';
+part 'skills_section/skills.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,7 +39,9 @@ class HomePage extends StatelessWidget {
         body: ListView(
           children: [
             const HomePageHeader(),
-            const _Skills(),
+            const SkillsSection(),
+            const Gap(64.0),
+            const AboutMeSection(),
             const Gap(64.0),
             const _Mesh().pad24H(),
             const Gap(24.0),

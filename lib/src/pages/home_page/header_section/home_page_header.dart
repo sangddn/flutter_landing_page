@@ -1,4 +1,4 @@
-part of 'home_page.dart';
+part of '../home_page.dart';
 
 class HomePageHeader extends StatelessWidget {
   const HomePageHeader({super.key});
@@ -23,17 +23,18 @@ class HomePageHeader extends StatelessWidget {
               children: [
                 const SafeArea(child: Gap(48.0)),
                 const _MugWithLinks().center(),
-                const Gap(24.0),
+                const Gap(8.0),
               ],
             ).withMaxWidth(500.0).pad16H().center(),
           ),
           const Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _Intro(),
+              Gap(8.0),
+              _CTA(),
             ],
-          ).withMaxWidth(500.0).pad16H().center(),
+          ).readableWidth().pad16H().center(),
         ],
       ),
     );
@@ -231,12 +232,9 @@ class _Link extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 center: Alignment.bottomCenter,
-                radius: 0.75,
+                radius: 1.5,
                 colors: [
-                  if (isHovered)
-                    resolvedColor.withOpacity(0.5)
-                  else
-                    Colors.transparent,
+                  if (isHovered) resolvedColor.tint40 else Colors.transparent,
                   if (isHovered) resolvedColor else Colors.transparent,
                 ],
               ),
