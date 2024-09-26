@@ -34,8 +34,8 @@ class HomePageHeader extends StatelessWidget {
             onTap: () async {
               await _screenshotController.captureAndSave(
                 (await getDownloadDirectory()).path,
-                fileName: 'screenshot.png',
-                pixelRatio: 4.0,
+                fileName: 'mug_1700x1700.png',
+                pixelRatio: 20.0,
               );
               debugPrint('Captured');
             },
