@@ -71,12 +71,14 @@ flutter:
     - assets/sounds/sound_effects/
     - assets/animations/
     - assets/haptics/
-    - assets/fonts/
     - assets/misc/weather/
     - assets/misc/weather/icons/
     - assets/misc/weather/lottie/
     - assets/misc/news_logos/
+    - assets/fonts/
     - assets/fonts/figtree/
+    - assets/fonts/inter/
+    - assets/fonts/yellix/
 
   fonts:
     - family: HgiStrokeRounded
