@@ -41,20 +41,20 @@ class _Ticket extends StatelessWidget {
               ],
             ),
           );
-          return container;
-        // return Tilt(
-        //   lightConfig: const LightConfig(disable: true),
-        //   shadowConfig: const ShadowConfig(disable: true),
-        //   borderRadius: BorderRadius.circular(16.0),
-        //   clipBehavior: Clip.none,
-        //   onGestureMove: (data, _) {
-        //     notifier.value = data.angle / 2;
-        //   },
-        //   onGestureLeave: (data, _) {
-        //     notifier.value = Offset.zero;
-        //   },
-        //   child: container ,
-        // );
+        // return container;
+        return Tilt(
+          lightConfig: const LightConfig(disable: true),
+          shadowConfig: const ShadowConfig(disable: true),
+          borderRadius: BorderRadius.circular(16.0),
+          clipBehavior: Clip.none,
+          onGestureMove: (data, _) {
+            notifier.value = data.angle / 2;
+          },
+          onGestureLeave: (data, _) {
+            notifier.value = Offset.zero;
+          },
+          child: container ,
+        );
       },
     );
   }
