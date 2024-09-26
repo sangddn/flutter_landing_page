@@ -18,7 +18,7 @@ class _MPVVideoWrapper extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            Iconsax.play_remove_bold,
+            CupertinoIcons.play_circle_fill,
             size: 20.0,
             color: orange,
           ),

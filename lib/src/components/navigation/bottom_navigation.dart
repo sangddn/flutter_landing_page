@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:local_hero/local_hero.dart';
 import 'package:provider/provider.dart';
 

@@ -23,7 +23,7 @@ part 'decorations.dart';
 part 'effects.dart';
 part 'emojis.dart';
 part 'features.dart';
-part 'iconsax.dart';
+part 'huge_icons.dart';
 part 'keys_manager.dart';
 part 'sound_effects.dart';
 part 'theme.dart';
