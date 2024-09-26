@@ -27,6 +27,8 @@ final _boldColors = [
   PColors.atomicTangerine.shade10,
 ];
 
+final alignTween = Tween<double>(begin: 0.0, end: 0.8);
+
 class _Skills extends StatelessWidget {
   const _Skills();
 
@@ -39,10 +41,18 @@ class _Skills extends StatelessWidget {
                 : 0.0);
   }
 
+  double _getAlignment(int index, double endAdjustmentValue, double animValue) {
+    return alignTween.transform(animValue) *
+        (index == 0
+            ? 1.0 - endAdjustmentValue
+            : index == _skills.length - 1
+                ? 1.0 - endAdjustmentValue
+                : 1.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final alignTween = Tween<double>(begin: 0.0, end: 0.8);
     // If screen width is too small, we add rotation to the firrst
     // and the last widgets
     final endAdjustmentValue =
@@ -50,15 +60,18 @@ class _Skills extends StatelessWidget {
     final skills = Target.isWebIos || Target.isWebAndroid
         ? _skills.indexedMap((index, skill) {
             final angle = _getEndAngle(index, endAdjustmentValue) * 2 * math.pi;
-            return Transform.rotate(
-              angle: angle,
-              child: _Skill(
+            return Align(
+              widthFactor: _getAlignment(index, endAdjustmentValue, 1.0),
+              child: Transform.rotate(
                 angle: angle,
-                distance: 2.0,
-                skill: skill.$1,
-                icon: skill.$2,
-                color: _pastelColors[index],
-                foregroundColor: _boldColors[index],
+                child: _Skill(
+                  angle: angle,
+                  distance: 2.0,
+                  skill: skill.$1,
+                  icon: skill.$2,
+                  color: _pastelColors[index],
+                  foregroundColor: _boldColors[index],
+                ),
               ),
             );
           })
@@ -98,12 +111,8 @@ class _Skills extends StatelessWidget {
                   duration: 450.ms,
                   curve: PEffects.swiftOut,
                   builder: (context, value, child) => Align(
-                    widthFactor: alignTween.transform(value) *
-                        (index == 0
-                            ? 1.0 - endAdjustmentValue
-                            : index == _skills.length - 1
-                                ? 1.0 - endAdjustmentValue
-                                : 1.0),
+                    widthFactor:
+                        _getAlignment(index, endAdjustmentValue, value),
                     child: child,
                   ),
                 ),
