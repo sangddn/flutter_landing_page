@@ -62,16 +62,11 @@ flutter:
 
   assets:
     - assets/images/avatars/
-    - assets/images/logos/
-    - assets/images/backgrounds/
-    - assets/images/graphics/
     - assets/images/misc/
-    - assets/images/icons/
     - assets/precompiled_svgs/
     - assets/sounds/sound_effects/
     - assets/fonts/
     - assets/fonts/inter/
-    - assets/fonts/yellix/
 
   fonts:
     - family: HgiStrokeRounded
@@ -82,40 +77,6 @@ flutter:
         - asset: assets/fonts/inter/InterVariable.ttf
         - asset: assets/fonts/inter/InterVariable-Italic.ttf
           style: italic
-    - family: Yellix
-      fonts:
-        - asset: assets/fonts/yellix/Yellix-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/yellix/Yellix-Light.ttf
-          weight: 300
-        - asset: assets/fonts/yellix/Yellix-LightItalic.ttf
-          weight: 300
-          style: italic
-        - asset: assets/fonts/yellix/Yellix-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/yellix/Yellix-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/yellix/Yellix-MediumItalic.ttf
-          weight: 500
-          style: italic
-        - asset: assets/fonts/yellix/Yellix-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/yellix/Yellix-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/yellix/Yellix-BoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/yellix/Yellix-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/yellix/Yellix-ExtraBoldItalic.ttf
-          weight: 800
-          style: italic
-        - asset: assets/fonts/yellix/Yellix-Black.ttf
-          weight: 900
-        - asset: assets/fonts/yellix/Yellix-BlackItalic.ttf
-          weight: 900
-          style: italic
-
 
 flutter_launcher_icons:
   android: true
