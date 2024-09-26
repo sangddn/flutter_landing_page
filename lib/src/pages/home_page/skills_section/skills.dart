@@ -30,6 +30,15 @@ final _boldColors = [
 class _Skills extends StatelessWidget {
   const _Skills();
 
+  double _getEndAngle(int index, double endAdjustmentValue) {
+    return 0.02 * (index / 2.5 + 1.0) * (index.isOdd ? -1 : 1) +
+        (index == 0
+            ? endAdjustmentValue / 2
+            : index == _skills.length - 1
+                ? -endAdjustmentValue / 2.5
+                : 0.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -38,59 +47,67 @@ class _Skills extends StatelessWidget {
     // and the last widgets
     final endAdjustmentValue =
         ((800.0 - screenWidth) / 300.0).clamp(0.0, 1.0) * 0.25;
-    final skills = _skills
-        .indexedMap(
-          (index, skill) => const SizedBox()
-              .animate()
-              .custom(
-                delay: 100.ms * index,
-                duration: 550.ms,
-                curve: PEffects.swiftOut,
-                begin: -0.01 * index,
-                end: 0.02 * (index / 2.5 + 1.0) * (index.isOdd ? -1 : 1) +
-                    (index == 0
-                        ? endAdjustmentValue / 2
-                        : index == _skills.length - 1
-                            ? -endAdjustmentValue / 2.5
-                            : 0.0),
-                builder: (context, value, _) {
-                  final angle = value * 2 * math.pi;
-                  return Transform.rotate(
-                    angle: angle,
-                    child: _Skill(
-                      angle: angle,
-                      distance: 2.0,
-                      skill: skill.$1,
-                      icon: skill.$2,
-                      color: _pastelColors[index],
-                      foregroundColor: _boldColors[index],
-                    ),
-                  );
-                },
-              )
-              .scaleXY(
-                delay: 75.ms * index,
-                duration: 400.ms,
-                curve: Sprung(25),
-                begin: 0.1,
-                end: 1.0,
-              )
-              .custom(
-                delay: 115.ms * index,
-                duration: 450.ms,
-                curve: PEffects.swiftOut,
-                builder: (context, value, child) => Align(
-                  widthFactor: alignTween.transform(value) *
-                      (index == 0
-                          ? 1.0 - endAdjustmentValue
-                          : index == _skills.length - 1
-                              ? 1.0 - endAdjustmentValue
-                              : 1.0),
-                  child: child,
-                ),
+    final skills = Target.isWebIos || Target.isWebAndroid
+        ? _skills.indexedMap((index, skill) {
+            final angle = _getEndAngle(index, endAdjustmentValue) * 2 * math.pi;
+            return Transform.rotate(
+              angle: angle,
+              child: _Skill(
+                angle: angle,
+                distance: 2.0,
+                skill: skill.$1,
+                icon: skill.$2,
+                color: _pastelColors[index],
+                foregroundColor: _boldColors[index],
               ),
-        )
-        .toList();
+            );
+          })
+        : _skills.indexedMap(
+            (index, skill) => const SizedBox()
+                .animate()
+                .custom(
+                  delay: 100.ms * index,
+                  duration: 550.ms,
+                  curve: PEffects.swiftOut,
+                  begin: -0.01 * index,
+                  end: _getEndAngle(index, endAdjustmentValue),
+                  builder: (context, value, _) {
+                    final angle = value * 2 * math.pi;
+                    return Transform.rotate(
+                      angle: angle,
+                      child: _Skill(
+                        angle: angle,
+                        distance: 2.0,
+                        skill: skill.$1,
+                        icon: skill.$2,
+                        color: _pastelColors[index],
+                        foregroundColor: _boldColors[index],
+                      ),
+                    );
+                  },
+                )
+                .scaleXY(
+                  delay: 75.ms * index,
+                  duration: 400.ms,
+                  curve: Sprung(25),
+                  begin: 0.1,
+                  end: 1.0,
+                )
+                .custom(
+                  delay: 115.ms * index,
+                  duration: 450.ms,
+                  curve: PEffects.swiftOut,
+                  builder: (context, value, child) => Align(
+                    widthFactor: alignTween.transform(value) *
+                        (index == 0
+                            ? 1.0 - endAdjustmentValue
+                            : index == _skills.length - 1
+                                ? 1.0 - endAdjustmentValue
+                                : 1.0),
+                    child: child,
+                  ),
+                ),
+          );
 
     return Center(
       child: OverflowBox(
@@ -99,7 +116,7 @@ class _Skills extends StatelessWidget {
         fit: OverflowBoxFit.deferToChild,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: skills,
+          children: skills.toList(),
         ),
       ),
     );
