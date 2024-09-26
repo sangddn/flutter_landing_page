@@ -10,6 +10,11 @@ class _CTA extends StatelessWidget {
     return BouncingObject(
       onTap: () {},
       child: HoverTapBuilder(
+        hitTestBehavior: HitTestBehavior.translucent,
+        onClicked: () {
+          debugPrint('CTA tapped');
+          launchUrlString('https://cal.com/sangd');
+        },
         builder: (context, isHovered) => Container(
           decoration: ShapeDecoration(
             shape: PDecors.border12,

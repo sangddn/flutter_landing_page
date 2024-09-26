@@ -54,10 +54,10 @@ class _AboutMeCopy extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Born and raised in Vietnam, I went to college in the United States and have lived in 5 different countries. I have a passion for design, technology, and building products that make an impact.',
+          'Born and raised in Vietnam, I went to college in the United States. I have a passion for design, technology, and building products that make an impact.',
           style: theme.textTheme.titleLarge?.modifyWeight(-1.5),
         ),
       ],
-    ).readableWidth().center();
+    ).readableWidth().pad16H().center();
   }
 }
