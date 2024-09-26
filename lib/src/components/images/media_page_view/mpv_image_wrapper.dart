@@ -41,7 +41,7 @@ class _MPVImageWrapperState extends State<_MPVImageWrapper> {
 
     return Stack(
       children: [
-        if (placeholderBuilder != null) placeholderBuilder(context),
+        // if (placeholderBuilder != null) placeholderBuilder(context),
         SizedBox(
           width: double.infinity,
           child: RoundedImage.fromUrl(

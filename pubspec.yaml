@@ -69,14 +69,7 @@ flutter:
     - assets/images/icons/
     - assets/precompiled_svgs/
     - assets/sounds/sound_effects/
-    - assets/animations/
-    - assets/haptics/
-    - assets/misc/weather/
-    - assets/misc/weather/icons/
-    - assets/misc/weather/lottie/
-    - assets/misc/news_logos/
     - assets/fonts/
-    - assets/fonts/figtree/
     - assets/fonts/inter/
     - assets/fonts/yellix/
 
@@ -88,11 +81,6 @@ flutter:
       fonts:
         - asset: assets/fonts/inter/InterVariable.ttf
         - asset: assets/fonts/inter/InterVariable-Italic.ttf
-          style: italic
-    - family: Figtree
-      fonts:
-        - asset: assets/fonts/figtree/Figtree[wght].ttf
-        - asset: assets/fonts/figtree/Figtree-Italic[wght].ttf
           style: italic
     - family: Yellix
       fonts:

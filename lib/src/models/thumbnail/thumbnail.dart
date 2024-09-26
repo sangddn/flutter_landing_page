@@ -1,12 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'thumbnail.freezed.dart';
-part 'thumbnail.g.dart';
-
 enum MediaType {
-  @JsonValue('image')
   image,
-  @JsonValue('video')
   video,
   ;
 
@@ -16,91 +14,121 @@ enum MediaType {
 
 /// Represents a picture thumbnail.
 ///
-@freezed
-class Thumbnail with _$Thumbnail {
-  const factory Thumbnail({
-    /// The served URL of the picture thumbnail.
-    ///
-    @JsonKey(name: 'src') required String sourceUrl,
+@immutable
+class Thumbnail {
+  final String sourceUrl;
+  final String? thumbnailUrl;
+  final int? height;
+  final int? width;
+  final int? thumbnailHeight;
+  final int? thumbnailWidth;
+  final MediaType mediaType;
+  final String? title;
+  final String? description;
 
-    /// An alternate text for the image, if the image cannot be displayed.
-    ///
-    @JsonKey(name: 'alt', includeIfNull: false) String? altText,
+  const Thumbnail({
+    required this.sourceUrl,
+    this.thumbnailUrl,
+    this.height,
+    this.width,
+    this.thumbnailHeight,
+    this.thumbnailWidth,
+    required this.mediaType,
+    this.title,
+    this.description,
+  });
 
-    /// The height of the image.
-    ///
-    @JsonKey(name: 'height', includeIfNull: false) int? height,
+  Thumbnail copyWith({
+    String? sourceUrl,
+    String? thumbnailUrl,
+    int? height,
+    int? width,
+    int? thumbnailHeight,
+    int? thumbnailWidth,
+    MediaType? mediaType,
+    String? title,
+    String? description,
+  }) {
+    return Thumbnail(
+      sourceUrl: sourceUrl ?? this.sourceUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      height: height ?? this.height,
+      width: width ?? this.width,
+      thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight,
+      thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth,
+      mediaType: mediaType ?? this.mediaType,
+      title: title ?? this.title,
+      description: description ?? this.description,
+    );
+  }
 
-    /// The width of the image.
-    ///
-    @JsonKey(name: 'width', includeIfNull: false) int? width,
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'sourceUrl': sourceUrl,
+      'thumbnailUrl': thumbnailUrl,
+      'height': height,
+      'width': width,
+      'thumbnailHeight': thumbnailHeight,
+      'thumbnailWidth': thumbnailWidth,
+      'mediaType': mediaType.name,
+      'title': title,
+      'description': description,
+    };
+  }
 
-    /// The URL of the thumbnail.
-    ///
-    @JsonKey(name: 'thumbnail_link', includeIfNull: false) String? thumbnailUrl,
+  factory Thumbnail.fromMap(Map<String, dynamic> map) {
+    return Thumbnail(
+      sourceUrl: map['sourceUrl'] as String,
+      thumbnailUrl:
+          map['thumbnailUrl'] != null ? map['thumbnailUrl'] as String : null,
+      height: map['height'] != null ? map['height'] as int : null,
+      width: map['width'] != null ? map['width'] as int : null,
+      thumbnailHeight:
+          map['thumbnailHeight'] != null ? map['thumbnailHeight'] as int : null,
+      thumbnailWidth:
+          map['thumbnailWidth'] != null ? map['thumbnailWidth'] as int : null,
+      mediaType: MediaType.values.byName(map['mediaType'] as String),
+      title: map['title'] != null ? map['title'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+    );
+  }
 
-    /// The height of the thumbnail.
-    ///
-    @JsonKey(name: 'thumbnail_height', includeIfNull: false) int? thumbnailHeight,
+  String toJson() => json.encode(toMap());
 
-    /// The width of the thumbnail.
-    ///
-    @JsonKey(name: 'thumbnail_width', includeIfNull: false) int? thumbnailWidth,
+  factory Thumbnail.fromJson(String source) =>
+      Thumbnail.fromMap(json.decode(source) as Map<String, dynamic>);
 
-    /// The background color of the image in hex format.
-    ///
-    @JsonKey(name: 'bg_color', includeIfNull: false) String? backgroundColor,
+  @override
+  String toString() {
+    return 'Thumbnail(sourceUrl: $sourceUrl, thumbnailUrl: $thumbnailUrl, height: $height, width: $width, thumbnailHeight: $thumbnailHeight, thumbnailWidth: $thumbnailWidth, mediaType: $mediaType, title: $title, description: $description)';
+  }
 
-    /// The original URL of the image.
-    ///
-    @JsonKey(name: 'original', includeIfNull: false) String? originalUrl,
+  @override
+  bool operator ==(covariant Thumbnail other) {
+    if (identical(this, other)) return true;
 
-    /// Source name.
-    ///
-    @JsonKey(name: 'src_name', includeIfNull: false) String? sourceName,
+    return other.sourceUrl == sourceUrl &&
+        other.thumbnailUrl == thumbnailUrl &&
+        other.height == height &&
+        other.width == width &&
+        other.thumbnailHeight == thumbnailHeight &&
+        other.thumbnailWidth == thumbnailWidth &&
+        other.mediaType == mediaType &&
+        other.title == title &&
+        other.description == description;
+  }
 
-    /// Source domain.
-    ///
-    @JsonKey(name: 'src_domain', includeIfNull: false) String? sourceDomain,
-
-    /// Link to the source this [Thumbnail] was fetched from.
-    ///
-    @JsonKey(name: 'link', includeIfNull: false) String? sourceLink,
-
-    /// Whether the image is a logo.
-    ///
-    @JsonKey(name: 'logo', includeIfNull: false) bool? isLogo,
-
-    /// Whether the image is duplicated.
-    ///
-    @JsonKey(name: 'duplicated', includeIfNull: false) bool? isDuplicated,
-
-    /// The theme associated with the image.
-    ///
-    @JsonKey(includeIfNull: false) String? theme,
-
-    /// The type of the media.
-    ///
-    @JsonKey(name: 'media_type') @Default(MediaType.image) MediaType mediaType,
-
-    /// The (YouTube) channel associated with the thumbnail.
-    ///
-    /// This is only applicable to video thumbnails.
-    ///
-    @JsonKey(includeIfNull: false) String? channel,
-
-    /// The duration of the video. This is only applicable to video thumbnails.
-    ///
-    @JsonKey(includeIfNull: false) String? duration,
-
-    /// The date the video was published. This is only applicable to video
-    /// thumbnails.
-    ///
-    @JsonKey(includeIfNull: false) String? date,
-  }) = _Thumbnail;
-
-  const Thumbnail._();
-
-  factory Thumbnail.fromJson(Map<String, dynamic> json) =>
-      _$ThumbnailFromJson(json);
+  @override
+  int get hashCode {
+    return sourceUrl.hashCode ^
+        thumbnailUrl.hashCode ^
+        height.hashCode ^
+        width.hashCode ^
+        thumbnailHeight.hashCode ^
+        thumbnailWidth.hashCode ^
+        mediaType.hashCode ^
+        title.hashCode ^
+        description.hashCode;
+  }
 }

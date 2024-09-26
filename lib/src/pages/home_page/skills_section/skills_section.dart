@@ -42,13 +42,13 @@ class _SkillsText extends StatelessWidget {
         'Build faster than you think possible',
         style: theme.textTheme.displayLarge?.apply(letterSpacingDelta: -1.5),
         textAlign: TextAlign.center,
-      ),
+      ).pad4V(),
     );
   }
 }
 
 class _SkillsCopy extends StatelessWidget {
-  const _SkillsCopy({super.key});
+  const _SkillsCopy();
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +58,8 @@ class _SkillsCopy extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Build an MVP',
-          style: theme.textTheme.titleLarge,
-        ),
-        const Gap(16.0),
-        Text(
           'I have years of experience turning ideas into fully functional web and mobile apps in as little as one week. I can help you prototype, validate and pressure-test at the speed of your ideas. I understand the unique challenges startups face, and I can provide empathetic, agile, and affordable development solutions tailored to your needs.',
-          style: theme.textTheme.bodyLarge,
+          style: theme.textTheme.titleLarge?.modifyWeight(-1.5),
         ),
       ],
     );

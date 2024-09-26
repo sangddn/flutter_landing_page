@@ -23,6 +23,7 @@ enum UiAsset {
   me1('$_avatars/me_1', 'webp'),
   me2('$_avatars/me_2', 'webp'),
   friendGroup('$_avatars/group', 'webp'),
+  memoji('$_avatars/memoji', 'webp'),
 
   // Icons
   lineSpacing('$_imgMisc/line_spacing', 'svg'),
@@ -55,25 +56,6 @@ enum UiAsset {
   twitterX('$_imgMisc/twitter_x', 'svg'),
   instagram('$_imgMisc/instagram', 'png'),
   qatarAirwaysLogo('$_imgMisc/qatar', 'png'),
-  cnnLogo('$_misc/news_logos/cnn_logo', 'jpg'),
-  apLogo('$_misc/news_logos/ap_logo', 'png'),
-  nytLogo('$_misc/news_logos/nyt_logo', 'png'),
-  wsjLogo('$_misc/news_logos/wsj_logo', 'png'),
-  foxNewsLogo('$_misc/news_logos/fox_news_logo', 'png'),
-
-  // Animations
-  sadDog('$_anim/sad_dog', 'json'),
-  gotMail('$_anim/got_mail', 'json'),
-  lockShield('$_anim/lock_shield', 'json'),
-  lockSnapCircle('$_anim/lock_snap_circle', 'json'),
-  email3d('$_anim/email_3d', 'riv'),
-
-  // Haptics
-  gravel('$_haptics/gravel', 'ahap'),
-  heartbeats('$_haptics/heartbeats', 'ahap'),
-  inflate('$_haptics/inflate', 'ahap'),
-  rumble('$_haptics/rumble', 'ahap'),
-  texture('$_haptics/texture', 'ahap'),
 
   // Graphics
   featureRequest('$_imgMisc/questions', 'png'),
@@ -95,9 +77,6 @@ enum UiAsset {
 const _assets = 'assets';
 const _image = '$_assets/images';
 const _sound = '$_assets/sounds';
-const _haptics = '$_assets/haptics';
-const _anim = '$_assets/animations';
-const _misc = '$_assets/misc';
 const _precompiledSvg = '$_assets/precompiled_svgs';
 
 const _avatars = '$_image/avatars';

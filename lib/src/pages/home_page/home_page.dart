@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:provider/provider.dart';
@@ -12,19 +13,18 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/components.dart';
 import '../../core/core.dart';
+import '../../models/models.dart';
 import '../../router/router.dart';
-
-part 'header_section/home_page_header.dart';
-part 'header_section/links.dart';
-part 'header_section/intro.dart';
-part 'header_section/cta.dart';
 
 part 'about_me_section/about_me_section.dart';
 part 'about_me_section/photos.dart';
 part 'about_me_section/ticket.dart';
-
-part 'skills_section/skills_section.dart';
+part 'header_section/cta.dart';
+part 'header_section/home_page_header.dart';
+part 'header_section/intro.dart';
+part 'header_section/links.dart';
 part 'skills_section/skills.dart';
+part 'skills_section/skills_section.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -45,7 +45,6 @@ class HomePage extends StatelessWidget {
             const Gap(64.0),
             const AboutMeSection(),
             const Gap(64.0),
-            const _Mesh().pad24H(),
             const Gap(24.0),
             Row(
               children: [

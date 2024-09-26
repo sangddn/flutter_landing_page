@@ -103,7 +103,7 @@ class MediaScrollView extends StatefulWidget {
   ///
   /// Defaults to [EdgeInsets.zero].
   ///
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry padding;
 
   /// Elevation getter for the photos.
   ///
@@ -212,22 +212,19 @@ class _MediaScrollViewState extends State<MediaScrollView> {
         Provider<MSVImageBuilder?>.value(value: widget.imageBuilder),
         Provider<ItemPropertyGetter<String>?>.value(value: widget.getImageUrl),
       ],
-      child: SizedBox(
-        height: widget.axisExtent,
-        child: SuperListView.separated(
-          controller: _scrollController,
-          listController: _listController,
-          scrollDirection: _pattern.axis,
-          cacheExtent: 100.0,
-          itemCount: _photoRows.length,
-          separatorBuilder: (context, index) => Gap(widget.spacing),
-          clipBehavior: Clip.none,
-          padding: widget.padding,
-          itemBuilder: (context, index) => _MSVCrossAxisFlex(
-            thumbnails: _photoRows[index],
-            runSpacing: widget.runSpacing,
-            cornerRadius: widget.cornerRadius,
-          ),
+      child: SuperListView.separated(
+        controller: _scrollController,
+        listController: _listController,
+        scrollDirection: _pattern.axis,
+        cacheExtent: 100.0,
+        itemCount: _photoRows.length,
+        separatorBuilder: (context, index) => Gap(widget.spacing),
+        clipBehavior: Clip.none,
+        padding: widget.padding,
+        itemBuilder: (context, index) => _MSVCrossAxisFlex(
+          thumbnails: _photoRows[index],
+          runSpacing: widget.runSpacing,
+          cornerRadius: widget.cornerRadius,
         ),
       ),
     );

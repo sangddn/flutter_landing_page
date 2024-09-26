@@ -104,7 +104,7 @@ class _MediaPageViewState extends State<MediaPageView> {
                 );
               },
             ),
-            const _MPVBackground(),
+            // const _MPVBackground(),
             const _MPVTheActualPageView(),
           ],
         ),
