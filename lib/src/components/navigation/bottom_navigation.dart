@@ -55,6 +55,8 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -71,9 +73,12 @@ class _Container extends StatelessWidget {
         constraints: constraints,
         clipBehavior: Clip.hardEdge,
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+          filter: ImageFilter.blur(sigmaX: 24.0, sigmaY: 24.0),
           child: ColoredBox(
-            color: PColors.lightGray.resolveFrom(context),
+            color: theme.resolveColor(
+              Colors.white54,
+              PColors.dark2.withOpacity(0.3),
+            ),
             child: child,
           ),
         ),
