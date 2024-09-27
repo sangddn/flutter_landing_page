@@ -42,10 +42,9 @@ class HomePage extends StatelessWidget {
           children: [
             const HomePageHeader(),
             const SkillsSection(),
-            const Gap(64.0),
+            const Gap(80.0),
             const AboutMeSection(),
             const Gap(64.0),
-            const Gap(24.0),
             Row(
               children: [
                 const Expanded(child: SizedBox()),
