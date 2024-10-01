@@ -63,8 +63,6 @@ flutter:
   assets:
     - assets/images/avatars/
     - assets/images/misc/
-    - assets/precompiled_svgs/
-    - assets/sounds/sound_effects/
     - assets/fonts/
     - assets/fonts/inter/
 
