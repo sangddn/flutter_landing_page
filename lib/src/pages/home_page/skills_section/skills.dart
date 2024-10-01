@@ -15,16 +15,16 @@ const _pastelColors = [
   Color(0xffC5FBC9),
   Color(0xffEDDBFF),
   Color(0xffFEE59A),
-  PColors.selectiveYellow800,
+  Color(0xffffe39d),
 ];
 
-final _boldColors = [
-  const Color(0xff599FEE),
-  const Color(0xff86B51C),
-  const Color(0xff27B083),
-  const Color(0xffB663E6),
-  const Color(0xffF48C2B),
-  PColors.atomicTangerine.shade10,
+const _boldColors = [
+  Color(0xff599FEE),
+  Color(0xff86B51C),
+  Color(0xff27B083),
+  Color(0xffB663E6),
+  Color(0xffF48C2B),
+  Color(0xFFe68a5c),
 ];
 
 final alignTween = Tween<double>(begin: 0.0, end: 0.8);
