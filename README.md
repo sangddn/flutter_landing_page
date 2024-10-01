@@ -1,2 +1,6 @@
-# landing_page
- Roamio Labs' landing page.
+# Roamio Labs' landing page
+
+To run:
+```bash
+flutter run -d chrome
+```
